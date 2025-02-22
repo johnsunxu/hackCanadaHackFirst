@@ -26,7 +26,8 @@
         "https://www.reddit.com/*",
         "https://www.x.com/*",
         "https://www.facebook.com/*",
-        "http://tiktok.com/*"
+        "http://tiktok.com/*",
+        "http://localhost/*"
     ],
 
     "permissions": ["storage", "system.display"]
