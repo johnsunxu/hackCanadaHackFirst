@@ -1,6 +1,9 @@
 from app import app, db
 from flask import request, jsonify
+from flask_cors import CORS
 from models import Card
+
+CORS(app) 
 
 @app.route('/toDo', methods=['GET'])
 def get_cards():
