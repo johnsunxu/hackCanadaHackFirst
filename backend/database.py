@@ -20,14 +20,15 @@ def initialize_user(email, password, goals=None):
         "password": password,
         "goals": goals,
         "distance_scrolled": 0,
-        "time_spent_on_social_media_today": 0
+        "time_spent_on_social_media_today": 0,
+        "friends": []
 
     }
 
     collection.insert_one(user_data)
     print(f"User {email} initialized!")
 
-def increment_data(email, distance_scrolled, time_spent, friends):
+def increment_data(email, distance_scrolled, time_spent):
     result = collection.update_one(
         {"email": email},
         {
@@ -35,9 +36,6 @@ def increment_data(email, distance_scrolled, time_spent, friends):
                 "distance_scrolled": distance_scrolled,
                 "time_spent_on_social_media_today": time_spent
             },
-            "$set":{
-                "friends": friends
-            }
         },
         upsert=True  # If user doesn't exist, create a new one
     )
