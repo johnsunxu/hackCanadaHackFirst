@@ -39,7 +39,7 @@ export default function LandingPage() {
                 HackFirst helps you stay on track with timely reminders and motivation boosts.
               </p>
               <a
-                href="../../../backend"
+                href="C:\HackCanada\hackCanadaHackFirst\main_page\app\page.tsx"
                 className="bg-blue-600 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 transition duration-300"
               >
                 Get Started Free

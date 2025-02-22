@@ -1,52 +1,47 @@
+// AddTaskButton.tsx
+"use client"
+
 import { useState } from "react"
 import { Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 
-export default function AddTaskButton() {
+interface AddTaskButtonProps {
+  onTaskAdded: () => void; // Add this line to define the prop type
+}
+
+export default function AddTaskButton({ onTaskAdded }: AddTaskButtonProps) {
   const [isOpen, setIsOpen] = useState(false)
+  const [taskInput, setTaskInput] = useState("")
   const [taskTitle, setTaskTitle] = useState("")
-  const [taskDescription, setTaskDescription] = useState("")
   const [dueDate, setDueDate] = useState("")
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!taskTitle.trim() || !taskDescription.trim()) {
-      alert("Title and description are required!")
-      return
-    }
-
-    const newTask = {
-      title: taskTitle,
-      description: taskDescription,
-      due_date: dueDate || null,
-      status: "pending"
-    }
-
-    try {
-      const response = await fetch("http://127.0.0.1:5000/toDo", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newTask),
-      })
-
-      if (!response.ok) {
-        throw new Error("Failed to add task")
+    if (taskInput.trim() && taskTitle.trim()) {
+      try {
+        // Add your API call here to create a new task
+        await fetch("http://localhost:5000/toDo", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: taskTitle,
+            description: taskInput,
+            due_date: dueDate,
+            status: "pending", // Set default status or modify as needed
+          }),
+        })
+        onTaskAdded(); // Call the onTaskAdded function after successfully adding the task
+        setTaskInput("")
+        setTaskTitle("")
+        setDueDate("")
+        setIsOpen(false)
+      } catch (error) {
+        console.error("Error adding task:", error)
       }
-
-      const data = await response.json()
-      console.log("Task added:", data)
-
-      // Reset inputs
-      setTaskTitle("")
-      setTaskDescription("")
-      setDueDate("")
-      setIsOpen(false)
-
-    } catch (error) {
-      console.error("Error:", error)
-      alert("Failed to add task")
     }
   }
 
@@ -64,19 +59,18 @@ export default function AddTaskButton() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input
             type="text"
+            placeholder="Enter your task description"
+            value={taskInput}
+            onChange={(e) => setTaskInput(e.target.value)}
+          />
+          <Input 
+            type="text"
             placeholder="Title"
             value={taskTitle}
             onChange={(e) => setTaskTitle(e.target.value)}
           />
-          <Input
-            type="text"
-            placeholder="Description"
-            value={taskDescription}
-            onChange={(e) => setTaskDescription(e.target.value)}
-          />
-          <Input
-            type="date"
-            placeholder="Due Date"
+          <Input 
+            type="date" // Changed to date for better UX
             value={dueDate}
             onChange={(e) => setDueDate(e.target.value)}
           />
