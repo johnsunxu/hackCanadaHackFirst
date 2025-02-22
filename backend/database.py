@@ -7,9 +7,29 @@ client = MongoClient("mongodb+srv://jasontran2134:y9kSSG40xcK1oyZp@cluster0.z2ry
 db = client["Cluster0"]
 collection = db["users"]
 
-def increment_data(username, distance_scrolled, time_spent, friends):
+def initialize_user(email, password, goals=None):
+    if goals is None:
+        goals = [] 
+
+    if collection.find_one({"email": email}):
+        print("User already exists")
+        return
+    
+    user_data = {
+        "email": email,
+        "password": password,
+        "goals": goals,
+        "distance_scrolled": 0,
+        "time_spent_on_social_media_today": 0
+
+    }
+
+    collection.insert_one(user_data)
+    print(f"User {email} initialized!")
+
+def increment_data(email, distance_scrolled, time_spent, friends):
     result = collection.update_one(
-        {"username": username},
+        {"email": email},
         {
             "$inc": {
                 "distance_scrolled": distance_scrolled,
@@ -21,20 +41,20 @@ def increment_data(username, distance_scrolled, time_spent, friends):
         },
         upsert=True  # If user doesn't exist, create a new one
     )
-    print(f"User {username} updated")
+    print(f"User {email} updated")
     return result
 
 @app.route('/increment_user', methods=['POST'])
 def update_user():
     data = request.get_json()
-    username = data.get('username')
+    email = data.get('email')
     distance_scrolled = data.get('distance_scrolled')
     time_spent = data.get('time_spent')
 
-    if not username:
+    if not email:
         return jsonify({"error": "Username is required"}), 400
     
-    result = increment_data(username, distance_scrolled, time_spent)
+    result = increment_data(email, distance_scrolled, time_spent)
 
     if result.matched_count == 0:
         return jsonify({"error": "User not found"}), 404
@@ -42,3 +62,6 @@ def update_user():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+
+initialize_user("jason", "jasontran2134@gmail.com", "123456")
