@@ -1,0 +1,33 @@
+{
+    "name": "Hack Canada Hack First Project", 
+    "version": "1.0.0", 
+    "description": "Tracks social media doomscrolling distance for the main project website.",
+    "manifest_version": 3, 
+    
+    "content_scripts": [
+        {
+            "matches": ["https://www.reddit.com/*", "https://www.instagram.com/*", "https://www.x.com/*", "https://www.facebook.com/*", "http://tiktok.com/*"], 
+            "js": ["scripts.js"],
+            "run_at": "document_end"
+        }
+    ],
+    
+    "background": {
+        "service_worker": "background.js",
+        "type": "module"
+    },
+
+    "action" : {
+        "default_popup": "popup.html"
+    },
+
+    "host_permissions": [
+        "https://www.instagram.com/*",
+        "https://www.reddit.com/*",
+        "https://www.x.com/*",
+        "https://www.facebook.com/*",
+        "http://tiktok.com/*"
+    ],
+
+    "permissions": ["storage", "system.display"]
+}
