@@ -7,7 +7,7 @@ client = MongoClient("mongodb+srv://jasontran2134:y9kSSG40xcK1oyZp@cluster0.z2ry
 db = client["Cluster0"]
 collection = db["users"]
 
-def initialize_user(email, password, goals=None):
+def initialize_object(email, password, goals=None):
     if goals is None:
         goals = [] 
 
@@ -41,6 +41,21 @@ def increment_data(email, distance_scrolled, time_spent):
     )
     print(f"User {email} updated")
     return result
+
+@app.route('/initialize_user', methods=['POST'])
+def initialize_user():
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
+
+    if not email:
+        return jsonify({"error": "Username is required"}), 404
+    
+    result = initialize_object(email, password)
+
+    if result.matched_count == 0:
+        return jsonify({"message": "user successfully initialized!"}), 200
+    return jsonify({"error", "username is taken"}), 404
 
 @app.route('/increment_user', methods=['POST'])
 def update_user():
