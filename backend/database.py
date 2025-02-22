@@ -25,11 +25,12 @@ def initialize_object(email, password, goals=None):
 
     }
 
-    collection.insert_one(user_data)
+    result = collection.insert_one(user_data)
     print(f"User {email} initialized!")
+    return result
 
 def increment_data(email, distance_scrolled, time_spent):
-    print('incrementing', username, distance_scrolled, time_spent)
+    print('incrementing', email, distance_scrolled, time_spent)
     result = collection.update_one(
         {"email": email},
         {
