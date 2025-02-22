@@ -7,13 +7,16 @@ client = MongoClient("mongodb+srv://jasontran2134:y9kSSG40xcK1oyZp@cluster0.z2ry
 db = client["Cluster0"]
 collection = db["users"]
 
-def increment_data(username, distance_scrolled, time_spent):
+def increment_data(username, distance_scrolled, time_spent, friends):
     result = collection.update_one(
         {"username": username},
         {
             "$inc": {
                 "distance_scrolled": distance_scrolled,
                 "time_spent_on_social_media_today": time_spent
+            },
+            "$set":{
+                "friends": friends
             }
         },
         upsert=True  # If user doesn't exist, create a new one
