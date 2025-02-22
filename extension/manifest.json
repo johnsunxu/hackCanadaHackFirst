@@ -6,14 +6,9 @@
     
     "content_scripts": [
         {
-            "matches": ["https://www.reddit.com/*"], 
+            "matches": ["https://www.reddit.com/*", "https://www.instagram.com/*", "https://www.x.com/*", "https://www.facebook.com/*", "http://tiktok.com/*"], 
             "js": ["scripts.js"],
             "run_at": "document_end"
-        },
-        {
-            "matches" : ["https://www.instagram.com/*"],
-            "js" : ["scripts.js"],
-            "run_at" : "document_end" 
         }
     ],
     
@@ -23,7 +18,10 @@
 
     "host_permissions": [
         "https://www.instagram.com/*",
-        "https://www.reddit.com/*"
+        "https://www.reddit.com/*",
+        "https://www.x.com/*",
+        "https://www.facebook.com/*",
+        "http://tiktok.com/*"
     ],
 
     "permissions": ["storage"]
