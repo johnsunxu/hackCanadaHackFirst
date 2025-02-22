@@ -12,7 +12,9 @@ type Friend = {
 export default function FriendsPage() {
     const [friends, setFriends] = useState<Friend[]>([]);
     return (
-      <Box>
+      <Box 
+        className='m-24'
+      >
         <Typography
           variant='h2'
         >

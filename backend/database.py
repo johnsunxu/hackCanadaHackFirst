@@ -8,6 +8,7 @@ db = client["Cluster0"]
 collection = db["users"]
 
 def increment_data(username, distance_scrolled, time_spent):
+    print('incrementing', username, distance_scrolled, time_spent)
     result = collection.update_one(
         {"username": username},
         {
@@ -23,19 +24,24 @@ def increment_data(username, distance_scrolled, time_spent):
 
 @app.route('/increment_user', methods=['POST'])
 def update_user():
-    data = request.get_json()
-    username = data.get('username')
-    distance_scrolled = data.get('distance_scrolled')
-    time_spent = data.get('time_spent')
+    try: 
+        # print('got here')
+        data = request.get_json()
+        username = data.get('username')
+        distance_scrolled = data.get('distance_scrolled')
+        time_spent = data.get('time_spent')
 
-    if not username:
-        return jsonify({"error": "Username is required"}), 400
-    
-    result = increment_data(username, distance_scrolled, time_spent)
+        if not username:
+            return jsonify({"error": "Username is required"}), 400
+        print('before increment')
+        result = increment_data(username, distance_scrolled, time_spent)
 
-    if result.matched_count == 0:
-        return jsonify({"error": "User not found"}), 404
-    return jsonify({"message": "sucessfully updated user"}), 200
+        if result.matched_count == 0:
+            return jsonify({"error": "User not found"}), 404
+        return jsonify({"message": "sucessfully updated user"}), 200
+    except Exception as e: 
+        print('excepting', e)
+        return jsonify({"error": e}), 404
 
 if __name__ == "__main__":
     app.run(debug=True)
