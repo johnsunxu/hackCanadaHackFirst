@@ -1,17 +1,22 @@
 let accumulator = 0; 
+let dpiY = -1;
+
+chrome.runtime.sendMessage('getDpi', (response) => {
+    dpiY = response;
+    console.log(`dpi is ${dpiY}`);
+});
 
 function wheelEvent(event) {
     var verticalScrollDistance = Math.max(event.deltaY, 0);
     accumulator += verticalScrollDistance;
+    // console.log(ppiY);
 }
 
 async function saveAccumulator() {
-    chrome.storage.local.get("currentScrollDistance", function (items) {
-        const temp = items.currentScrollDistance;
-        chrome.storage.local.set({ "currentScrollDistance": accumulator+temp }, function(){
-            accumulator = 0;
-        });   
-    })
+    chrome.runtime.sendMessage({name: 'addAccumulator', payload: accumulator}, (response) => {
+        accumulator = 0;
+    });
+    accumulator=0;
 }
 
 const body = document.querySelector('body');

@@ -17,6 +17,11 @@
         }
     ],
     
+    "background": {
+        "service_worker": "background.js",
+        "type": "module"
+    },
+
     "action" : {
         "default_popup": "popup.html"
     },
@@ -26,5 +31,5 @@
         "https://www.reddit.com/*"
     ],
 
-    "permissions": ["storage"]
+    "permissions": ["storage", "system.display"]
 }
