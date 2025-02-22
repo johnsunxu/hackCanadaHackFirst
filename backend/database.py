@@ -70,7 +70,7 @@ def update_user():
 
         if not email:
             return jsonify({"error": "Username is required"}), 400
-        print('before increment')
+        # print('before increment')
         result = increment_data(email, distance_scrolled, time_spent)
 
         if result.matched_count == 0:
@@ -84,4 +84,4 @@ if __name__ == "__main__":
     app.run(debug=True)
 
 
-initialize_user("jason", "jasontran2134@gmail.com", "123456")
+# initialize_user("jason", "jasontran2134@gmail.com", "123456")
