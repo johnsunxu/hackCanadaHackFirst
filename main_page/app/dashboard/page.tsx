@@ -19,6 +19,18 @@ export default function App() {
     }
   }
 
+  // Function to delete a task
+  const handleDelete = async (id: number) => { // ✅ Explicitly set id type to number
+    try {
+      await fetch(`http://localhost:5000/toDo/${id}`, {
+        method: "DELETE",
+      })
+      fetchTasks() // Refresh tasks after deletion
+    } catch (error) {
+      console.error("Error deleting task:", error)
+    }
+  }
+
   // Fetch tasks when the component mounts
   useEffect(() => {
     fetchTasks()
@@ -35,7 +47,7 @@ export default function App() {
       <div className="flex justify-center">
         <AddTaskButton onTaskAdded={handleTaskAdded} />
       </div>
-      <TaskList tasks={tasks} />
+      <TaskList tasks={tasks} onDelete={handleDelete} />
     </div>
   )
 }
