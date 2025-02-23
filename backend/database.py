@@ -80,6 +80,52 @@ def update_user():
         print('excepting', e)
         return jsonify({"error": e}), 404
 
+@app.route('/get_goals', method=['GET'])
+def get_goals():
+    email = request.args.get('email')
+    if not email:
+        return jsonify({"error": "email field required"}), 404
+    user = collection.find_one({"email": email}, {"_id": 0, "goals": 1})
+    if not user:
+        return jsonify({"error": "email not found"}), 404
+    goals = user.get('goals', [])
+    return jsonify({"email": email, "goals": goals}), 200
+
+@app.route('/todo', methods=['POST', 'DELETE'])
+def manage_tools():
+    data = request.get_json()
+    email = data.get("email")
+    todo_item = data.get("todo_item")
+
+    if not email or not todo_item:
+        return jsonify({"error": "email and todo item are required"}), 404
+    
+    user = collection.find_one({"email": email})
+    if not user:
+        return jsonify({"error": "email not found"}), 404
+    
+    if request.method == 'POST':
+        result = collection.update_one(
+            {"email": email},
+            {"$addToSet": {"goals": todo_item}}
+        )
+
+        if result.modified_count > 0:
+            return jsonify({"message": "item successfully added to goals list"}), 200
+        else:
+            return jsonify({"error": "todo item already in goals list"}), 400
+        
+    elif request.method == 'DELETE':
+        result = collection.update_one(
+            {"email": email},
+            {"$pull": {"goals": todo_item}}
+        )
+
+        if result.modified_count > 0:
+            return jsonify({"message": "item successfully delete from goals list"}), 200
+        else:
+            return jsonify({"error": "todo item not found in goals list"}), 400
+
 if __name__ == "__main__":
     app.run(debug=True)
 
