@@ -11,14 +11,13 @@ function wheelEvent(event) {
     var verticalScrollDistance = Math.max(event.deltaY, 0);
     accumulator += verticalScrollDistance;
     sessionAccumulator += verticalScrollDistance;
+    // console.log(ppiY);
 }
 
 async function saveAccumulator() {
-    console.log(sessionAccumulator);
     // send message to open a tab to alert if the user has been scrolling too long in the session 
     if (sessionAccumulator > 10000) {
         chrome.runtime.sendMessage("openTab", () => {
-            sessionAccumulator = 0;
             console.log('opening tab');
         });
     }

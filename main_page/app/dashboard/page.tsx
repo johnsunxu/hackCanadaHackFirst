@@ -3,15 +3,27 @@
 import { useState, useEffect } from "react"
 import Navbar from "../../components/Navbar"
 import AddTaskButton from "../../components/AddTaskButton"
-import TaskList from "../../components/TaskList"
+import TaskList, { Task } from "../../components/TaskList"
 
 export default function App() {
-  const [tasks, setTasks] = useState([])
+  const [tasks, setTasks] = useState<Task[]>([])
 
   // Function to fetch tasks from the backend
   const fetchTasks = async () => {
     try {
-      const response = await fetch("http://localhost:5000/toDo") // Adjust the URL as needed
+      console.log('sending');
+      const reqBody = {
+        email: 'jasontran2134@gmail.com',
+        todo_item: tasks[0].description
+      }
+      const response = await fetch("http://localhost:5000/todo", {
+        method: 'POST', 
+        headers: {
+          "Content-Type"  : "application/json"
+        },
+        body: JSON.stringify(reqBody),
+        
+      }); // Adjust the URL as needed
       const data = await response.json()
       setTasks(data)
     } catch (error) {

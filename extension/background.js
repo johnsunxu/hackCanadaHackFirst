@@ -22,6 +22,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         })
         return true;
     }
+
+    else if (message === 'openTab'){
+        chrome.tabs.create({url: 'guiltPage.html'});   
+    }
+
     else if (message.name === 'addAccumulator'){
         chrome.system.display.getInfo((dpi) => {
             const dpiY = dpi[0].dpiY;

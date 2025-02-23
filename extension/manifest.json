@@ -30,5 +30,5 @@
         "http://localhost/*"
     ],
 
-    "permissions": ["storage", "system.display"]
+    "permissions": ["storage", "system.display", "notifications", "tabs"]
 }
