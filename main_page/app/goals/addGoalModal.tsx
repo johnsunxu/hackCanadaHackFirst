@@ -36,17 +36,22 @@ function AddGoalModal(props : PropType) {
 
     async function handleSubmit() {
         const requestBody = {
-            email: 'jasontran2134@gmail.com',
-            // todo_
+            email: "jasontran2134@gmail.com",
+            todo_item: {
+                title: title,
+                description: description,
+                // date
+                status: "incomplete"
+            }
         };
-        await fetch("http://localhost:5000/todo", {
+        const res = await fetch("http://localhost:5000/todo", {
             method: 'POST',
             headers: {
-                "Content-Type"  : "application/json"
+                "Content-Type"  : "application/json",
+                "User-Agent" : "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36"
             },
-            body: JSON.stringify(requestBody),
-            
-        })
+            body: JSON.stringify(requestBody),       
+        });
     }
 
     // Dispatch<SetStateAction<string>>
@@ -70,14 +75,14 @@ function AddGoalModal(props : PropType) {
                     </Typography>
                     <TextField
                         label='Title'
-                        value=''
+                        value={title}
                         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                             setTitle(event.target.value);
                         }}
                     />
                     <TextField
                         label='Description'
-                        value=''
+                        value={description}
                         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                             setDescription(event.target.value);
                         }}

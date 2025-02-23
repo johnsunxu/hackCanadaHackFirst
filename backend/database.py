@@ -1,7 +1,9 @@
 from flask import Flask, request, jsonify
 from pymongo import MongoClient
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 client = MongoClient("mongodb+srv://jasontran2134:y9kSSG40xcK1oyZp@cluster0.z2ry0.mongodb.net/?ssl=true")
 db = client["Cluster0"]
@@ -14,7 +16,7 @@ def initialize_object(email, password, goals=None):
     if collection.find_one({"email": email}):
         print("User already exists")
         return
-    
+
     user_data = {
         "email": email,
         "password": password,
@@ -99,13 +101,16 @@ def manage_tools():
     todo_item = data.get("todo_item")
 
     if not email or not todo_item:
+        print("missing reqs")
         return jsonify({"error": "email and todo item are required"}), 404
     
     user = collection.find_one({"email": email})
     if not user:
+        print("email not found")
         return jsonify({"error": "email not found"}), 404
     
     if request.method == 'POST':
+        print('posting')
         result = collection.update_one(
             {"email": email},
             {"$addToSet": {"goals": todo_item}}
