@@ -113,7 +113,7 @@ def manage_tools():
         if result.modified_count > 0:
             return jsonify({"message": "item successfully added to goals list"}), 200
         else:
-            return jsonify({"error": "todo item already in goals list"}), 400
+            return jsonify({"error": "todo item already in goals list"}), 404
         
     elif request.method == 'DELETE':
         result = collection.update_one(
@@ -124,7 +124,22 @@ def manage_tools():
         if result.modified_count > 0:
             return jsonify({"message": "item successfully delete from goals list"}), 200
         else:
-            return jsonify({"error": "todo item not found in goals list"}), 400
+            return jsonify({"error": "todo item not found in goals list"}), 404
+
+@app.route('/get_user_info', method=['GET'])
+def get_user_info():
+    email = request.args.get("email")
+    if not email:
+        return jsonify({"error": "email is required"}), 404
+    
+    user = collection.find_one(
+        {"email": email},
+        {"_id": 0, "distance_scrolled": 1, "time_spent_on_social_media": 1}
+    )
+
+    if not user:
+        return jsonify({"error": "user not found"}), 404
+    return jsonify(user), 200
 
 if __name__ == "__main__":
     app.run(debug=True)
