@@ -1,7 +1,11 @@
+"use client";
 import React from "react";
+import { Button } from '@mui/material';
 import { Bell, Clock, Focus } from "lucide-react";
+import { useRouter } from 'next/navigation'
 
 export default function LandingPage() {
+  const router = useRouter();
   return (
     <div className="flex flex-col min-h-screen">
       <header className="bg-white shadow-sm">
@@ -38,12 +42,19 @@ export default function LandingPage() {
               <p className="text-xl text-gray-600 mb-8">
                 HackFirst helps you stay on track with timely reminders and motivation boosts.
               </p>
-              <a
+              {/* <a
                 href="C:\HackCanada\hackCanadaHackFirst\main_page\app\page.tsx"
                 className="bg-blue-600 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 transition duration-300"
               >
                 Get Started Free
-              </a>
+              </a> */}
+              <Button
+                // type="button"
+                onClick={() => router.push("/dashboard")}
+                className="bg-blue-600 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 transition duration-300"
+              >
+                Go to Dashboard              
+              </Button>
             </div>
           </div>
         </section>
