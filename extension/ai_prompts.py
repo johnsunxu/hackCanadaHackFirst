@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 client = MongoClient("mongodb+srv://jasontran2134:y9kSSG40xcK1oyZp@cluster0.z2ry0.mongodb.net/?ssl=true")
 db = client["Cluster0"]
-collection = db["users"]
+collection = db["users" ]
 
 def generate_insult(goals):
 
