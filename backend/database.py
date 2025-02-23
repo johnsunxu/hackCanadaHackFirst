@@ -80,7 +80,7 @@ def update_user():
         print('excepting', e)
         return jsonify({"error": e}), 404
 
-@app.route('/get_goals', method=['GET'])
+@app.route('/get_goals', methods=['GET'])
 def get_goals():
     email = request.args.get('email')
     if not email:
@@ -93,6 +93,7 @@ def get_goals():
 
 @app.route('/todo', methods=['POST', 'DELETE'])
 def manage_tools():
+    print("post or deleting")
     data = request.get_json()
     email = data.get("email")
     todo_item = data.get("todo_item")
@@ -126,7 +127,7 @@ def manage_tools():
         else:
             return jsonify({"error": "todo item not found in goals list"}), 404
 
-@app.route('/get_user_info', method=['GET'])
+@app.route('/get_user_info', methods=['GET'])
 def get_user_info():
     email = request.args.get("email")
     if not email:

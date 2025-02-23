@@ -22,19 +22,21 @@ export default function AddTaskButton({ onTaskAdded }: AddTaskButtonProps) {
     if (taskInput.trim() && taskTitle.trim()) {
       try {
         // Add your API call here to create a new task
-        await fetch("http://localhost:5000/toDo", {
+        await fetch("http://localhost:5000/todo", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            title: taskTitle,
-            description: taskInput,
-            due_date: dueDate,
-            status: "pending", // Set default status or modify as needed
+            "email": 'jasontran2134@gmail.com',
+            "todo_item": taskInput
+            // title: taskTitle,
+            // description: taskInput,
+            // due_date: dueDate,
+            // status: "pending", // Set default status or modify as needed
           }),
         })
-        onTaskAdded(); // Call the onTaskAdded function after successfully adding the task
+        // onTaskAdded(); // Call the onTaskAdded function after successfully adding the task
         setTaskInput("")
         setTaskTitle("")
         setDueDate("")
