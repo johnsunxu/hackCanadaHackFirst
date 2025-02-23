@@ -18,7 +18,6 @@ async function saveAccumulator() {
     // send message to open a tab to alert if the user has been scrolling too long in the session 
     if (sessionAccumulator > 10000) {
         chrome.runtime.sendMessage("openTab", () => {
-            sessionAccumulator = 0;
             console.log('opening tab');
         });
     }
