@@ -50,7 +50,7 @@ export default function LandingPage() {
               </a> */}
               <Button
                 // type="button"
-                onClick={() => router.push("/dashboard")}
+                onClick={() => router.push("/goals")}
                 className="bg-blue-600 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 transition duration-300"
               >
                 Go to Dashboard              
