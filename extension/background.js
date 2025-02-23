@@ -40,9 +40,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                         return;
                     }
                     const requestBody = {
-                        email: 'jasontran2134@gmail.com',
+                        email: 'johnsonxu2134@gmail.com',
                         distance_scrolled: message.payload/dpiY,
-                        time_spent: addition > 10 ? 2 : 0,
+                        time_spent: addition > 0.25 ? 2 : 0,
                     };
                     fetch("http://localhost:5000/increment_user", {
                         method: 'POST',

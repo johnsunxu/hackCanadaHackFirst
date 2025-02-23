@@ -140,7 +140,7 @@ def get_user_info():
     
     user = collection.find_one(
         {"email": email},
-        {"_id": 0, "distance_scrolled": 1, "time_spent_on_social_media": 1}
+        {"_id": 0, "email": 1, "distance_scrolled": 1, "time_spent_on_social_media_today": 1, "friends": 1}
     )
 
     if not user:

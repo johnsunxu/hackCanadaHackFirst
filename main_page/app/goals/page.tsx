@@ -18,7 +18,18 @@ function GoalsPage(){
     const [newDescription, setNewDescription] = useState<string>('');
     const [newStatus, setNewStatus] = useState<string>('');
     const [newDate, setNewDate] = useState<string>('');
+    const tempEmail = 'jasontran2134@gmail.com';
 
+    useEffect(() => {
+        const getGoals = async () => {
+            const res = await fetch(`http://localhost:5000/get_goals?email=${tempEmail}`);
+            const data = await res.json();
+            console.log(data);
+            setGoalList(data.goals);
+        }
+
+        getGoals();
+    }, []);
 
     async function addGoal(newGoal: Goal) {
         const requestBody = {
@@ -65,6 +76,7 @@ function GoalsPage(){
                     <TableRow>
                     <TableCell>Goal</TableCell>
                     <TableCell align='right'>Description</TableCell>
+                    <TableCell align='right'>Status</TableCell>
                     <TableCell align='right'>Due Date</TableCell>
                     </TableRow>
                 </TableHead>
@@ -72,8 +84,10 @@ function GoalsPage(){
                     {goalList.map((goal) => (
                     <TableRow
                         key={goal.title}
-                    >
-                        <TableCell component='th' scope='row'>{goal.description}</TableCell>
+                    >   
+                        <TableCell component='th' scope='row'>{goal.title}</TableCell>
+                        <TableCell align='right'>{goal.description}</TableCell>
+                        <TableCell align='right'>{goal.status}</TableCell>
                         <TableCell align='right'>{goal.date}</TableCell>
                     </TableRow>
                     ))}
