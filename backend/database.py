@@ -108,7 +108,7 @@ def manage_tools():
     if request.method == 'POST':
         result = collection.update_one(
             {"email": email},
-            {"$addToSet": {"goals": todo_item}}
+            {"$addToSet": todo_item}
         )
 
         if result.modified_count > 0:
