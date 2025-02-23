@@ -2,6 +2,7 @@
 import { Box, Stack, Typography, Button, Table, TableBody, TableContainer, TableCell, TableHead, TableRow, Modal } from '@mui/material';
 // import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
+import AddGoalModal from './addGoalModal';
 
 type Goal = {
     title: string; 
@@ -49,13 +50,15 @@ function GoalsPage(){
                 >
                     Goal setting list 
                 </Typography>
-                <Button
-                    onClick={() => {
-                        // addGoal()
-                    }}
-                >
-                    Add Goal
-                </Button>
+                <AddGoalModal 
+                    title={newTitle}
+                    description={newDescription}
+                    setTitle={setNewTitle}
+                    setDescription={setNewDescription}
+                    setDate={setNewDate}
+                    setStatus={setNewStatus}
+                />
+
             </Stack>
             <Table>
                 <TableHead>
